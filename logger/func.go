@@ -3,7 +3,7 @@ package logger
 import (
 	"context"
 	"fmt"
-	"os"
+	"io"
 )
 
 // SinkFunc adapts a function to the datastream.Sink interface.
@@ -19,8 +19,10 @@ func (sf SinkFunc) Write(ctx context.Context, p []byte) error {
 }
 
 // Println is a helper function that can be cast to a SinkFunc.
-// It writes the byte slice followed by a newline to stdout.
-func Println(_ context.Context, p []byte) error {
-	_, err := fmt.Fprintln(os.Stdout, string(p))
-	return err
+// It writes the byte slice followed by a newline to io.Writer.
+func Println(w io.Writer) SinkFunc {
+	return func(_ context.Context, p []byte) error {
+		_, err := fmt.Fprintln(w, string(p))
+		return err
+	}
 }
