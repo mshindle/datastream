@@ -1,6 +1,7 @@
-.datagen.yml
+.datastream.yml
 .idea/
-datagen
+datastream
+.env
 *.log
 ### Go template
 # Binaries for programs and plugins
